@@ -46,7 +46,7 @@ export default {
     return {
       time: '',
       date: '',
-      week: ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SAB']
+      week: ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB']
     }
   },
 

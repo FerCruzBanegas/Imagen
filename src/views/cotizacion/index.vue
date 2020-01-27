@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import GridGeneral from '../../components/services/GridGeneral'
+  import GridGeneral from '../../components/cotizacion/GridGeneral'
 
   export default {
     components: {

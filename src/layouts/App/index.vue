@@ -2,28 +2,24 @@
   <div :class="{air__layout__grayBackground: settings.isGrayBackground}">
     <a-layout
       :class="{
-      air__layout__contentNoMaxWidth: settings.isContentNoMaxWidth,
-      air__layout__appMaxWidth: settings.isAppMaxWidth,
-      air__layout__grayBackground: settings.isGrayBackground,
-      air__layout__squaredBorders: settings.isSquaredBorders,
-      air__layout__cardsShadow: settings.isCardShadow,
-      air__layout__borderless: settings.isBorderless,
-    }"
+        air__layout__contentNoMaxWidth: settings.isContentNoMaxWidth,
+        air__layout__appMaxWidth: settings.isAppMaxWidth,
+        air__layout__grayBackground: settings.isGrayBackground,
+        air__layout__squaredBorders: settings.isSquaredBorders,
+        air__layout__cardsShadow: settings.isCardShadow,
+        air__layout__borderless: settings.isBorderless,
+      }"
     >
-<!--  <air-sidebar />
-      <air-support-chat /> -->
-      <air-menu-left v-if="settings.menuLayoutType === 'left'" />
-      <air-menu-top v-if="settings.menuLayoutType === 'top'" />
+      <air-menu-left/>
       <a-layout>
         <a-layout-header
           class="air__layout__header"
           :class="{
-          air__layout__fixedHeader: settings.isTopbarFixed,
-          air__layout__headerGray: settings.isGrayTopbar,
-        }"
+            air__layout__fixedHeader: settings.isTopbarFixed,
+            air__layout__headerGray: settings.isGrayTopbar,
+          }"
         >
-          <air-topbar v-if="settings.menuLayoutType !== 'top-dark'" />
-          <!-- <air-topbar-dark v-if="settings.menuLayoutType === 'top-dark'" /> -->
+          <air-topbar/>
           <air-subbar />
         </a-layout-header>
         <a-layout-content>
@@ -34,8 +30,7 @@
           </div>
         </a-layout-content>
         <a-layout-footer>
-          <air-footer v-if="!settings.isFooterDark" />
-          <air-footer-dark v-if="settings.isFooterDark" />
+          <air-footer/>
         </a-layout-footer>
       </a-layout>
     </a-layout>
@@ -45,19 +40,14 @@
 <script>
 import { mapState } from 'vuex'
 import AirTopbar from '@/components/layout/TopBar'
-// import AirTopbarDark from '@/components/layout/TopBarDark'
 import AirSubbar from '@/components/layout/SubBar'
 import AirMenuLeft from '@/components/layout/MenuLeft'
-import AirMenuTop from '@/components/layout/MenuTop'
 import AirFooter from '@/components/layout/Footer'
-import AirFooterDark from '@/components/layout/FooterDark'
-// import AirSupportChat from '@/components/layout/SupportChat'
-// import AirSidebar from '@/components/layout/Sidebar'
 
 export default {
   name: 'AppLayout',
   computed: mapState(['settings']),
-  components: { AirTopbar, AirSubbar, AirMenuLeft, AirMenuTop, AirFooter, AirFooterDark },
+  components: { AirTopbar, AirSubbar, AirMenuLeft, AirFooter },
   mounted() {
     this.detectViewPort(true)
     window.addEventListener('resize', this.detectViewPortListener)

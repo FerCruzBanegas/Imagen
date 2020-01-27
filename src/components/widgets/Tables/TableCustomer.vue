@@ -1,126 +1,112 @@
 <template>
-  <table>
-  <caption>Statement Summary</caption>
-  <thead>
-    <tr>
-      <th scope="col">Account</th>
-      <th scope="col">Due Date</th>
-      <th scope="col">Amount</th>
-      <th scope="col">Period</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td data-label="Account">Visa - 3412</td>
-      <td data-label="Due Date">04/01/2016</td>
-      <td data-label="Amount">$1,190</td>
-      <td data-label="Period">03/01/2016 - 03/31/2016</td>
-    </tr>
-    <tr>
-      <td scope="row" data-label="Account">Visa - 6076</td>
-      <td data-label="Due Date">03/01/2016</td>
-      <td data-label="Amount">$2,443</td>
-      <td data-label="Period">02/01/2016 - 02/29/2016</td>
-    </tr>
-    <tr>
-      <td scope="row" data-label="Account">Corporate AMEX</td>
-      <td data-label="Due Date">03/01/2016</td>
-      <td data-label="Amount">$1,181</td>
-      <td data-label="Period">02/01/2016 - 02/29/2016</td>
-    </tr>
-    <tr>
-      <td scope="row" data-label="Acount">Visa - 3412</td>
-      <td data-label="Due Date">02/01/2016</td>
-      <td data-label="Amount">$842</td>
-      <td data-label="Period">01/01/2016 - 01/31/2016</td>
-    </tr>
-  </tbody>
-</table>
+  <table v-if="data !== null">
+    <thead>
+      <tr>
+        <th scope="col">Señor (es)</th>
+        <th scope="col">Nit</th>
+        <th scope="col">Contacto</th>
+        <th scope="col">E-mail</th>
+        <th scope="col">Teléfono</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Nombre">{{ data.business_name }}</td>
+        <td data-label="Nit">{{ data.contact }}</td>
+        <td data-label="Contacto">{{ data.city_id }}</td>
+        <td data-label="Email">{{ data.created_at }}</td>
+        <td data-label="Telefono">{{ data.updated_at }}</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
+<script>
+export default {
+  props: {
+    data: {
+      type: Object
+    }
+  },
+}
+</script>
 <style scoped>
-  body {
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.25;
-  }
+table {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 0.8em;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
 
+table thead tr{
+  background-color: rgb(90, 90, 90);
+  color: white;
+}
+
+table tbody tr {
+  background-color: rgb(212, 212, 212);
+  border: 1px solid #ddd;
+  padding: 0.35em;
+}
+
+table th,
+table td {
+  padding: 0.625em;
+  text-align: center;
+  font-weight: bold;
+}
+
+table th {
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
   table {
-    border: 1px solid #ccc;
-    border-collapse: collapse;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    table-layout: fixed;
+    border: 0;
   }
 
   table caption {
-    font-size: 1.5em;
-    margin: .5em 0 .75em;
+    font-size: 1.3em;
+  }
+
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
   }
 
   table tr {
-    background-color: #A21D00;
-    border: 1px solid #ddd;
-    padding: .35em;
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
   }
 
-  table th,
   table td {
-    padding: .625em;
-    text-align: center;
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
   }
 
-  table th {
-    font-size: .85em;
-    letter-spacing: .1em;
+  table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
     text-transform: uppercase;
   }
 
-  @media screen and (max-width: 600px) {
-    table {
-      border: 0;
-    }
-
-    table caption {
-      font-size: 1.3em;
-    }
-    
-    table thead {
-      border: none;
-      clip: rect(0 0 0 0);
-      height: 1px;
-      margin: -1px;
-      overflow: hidden;
-      padding: 0;
-      position: absolute;
-      width: 1px;
-    }
-    
-    table tr {
-      border-bottom: 3px solid #ddd;
-      display: block;
-      margin-bottom: .625em;
-    }
-    
-    table td {
-      border-bottom: 1px solid #ddd;
-      display: block;
-      font-size: .8em;
-      text-align: right;
-    }
-    
-    table td::before {
-      /*
-      * aria-label has no advantage, it won't be read inside a table
-      content: attr(aria-label);
-      */
-      content: attr(data-label);
-      float: left;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-    
-    table td:last-child {
-      border-bottom: 0;
-    }
+  table td:last-child {
+    border-bottom: 0;
   }
+}
 </style>
