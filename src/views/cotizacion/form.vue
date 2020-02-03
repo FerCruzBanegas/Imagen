@@ -9,13 +9,19 @@
         <b-form @submit.stop.prevent="submit">
           <div class="row">
             <div class="col-sm-12 col-lg-6">
-              <strong>
-                <label for="price">Cliente:</label>
-              </strong>
+              <div class="fieldset">
+                <div class="legend"><strong>Buscar cliente por:</strong></div>
+                <b-form-group>
+                  <b-form-radio-group
+                    v-model="selectedFilterCus"
+                    :options="filterCustomer"
+                    name="radio-inline"
+                  ></b-form-radio-group>
+                </b-form-group>
+              </div>
               <b-form-group
                 :invalid-feedback="errors.first('customer_id')"
                 :state="!errors.has('customer_id')"
-                description="We'll never share your email with anyone else."
               >
                 <div class="d-table-cell w-100">
                   <v-select
@@ -42,95 +48,11 @@
                     </template>
                   </v-select>
                 </div>
-                <div class="d-table-cell align-middle ml-1">
-                  <b-button id="popover-reactive-1" ref="button" pill size="sm">
+                <div class="d-table-cell align-middle">
+                  <b-button id="popover-reactive-1" ref="button" class="ml-1 btn-add" size="sm" squared>
                     <i class="fa fa-user-plus"></i>
                   </b-button>
                 </div>
-                <b-popover
-                  target="popover-reactive-1"
-                  triggers="click"
-                  :show.sync="popoverShow"
-                  placement="auto"
-                  container="my-container"
-                  ref="popover"
-                  @show="onShow"
-                  @shown="onShown"
-                  @hidden="onHidden"
-                >
-                  <template v-slot:title>
-                    <b-button @click="onClose" class="close" aria-label="Close">
-                      <span class="d-inline-block" aria-hidden="true">&times;</span>
-                    </b-button>Nuevo Cliente
-                  </template>
-
-                  <div>
-                    <b-form-group
-                      :state="input1state"
-                      class="mb-1"
-                      invalid-feedback="This field is required"
-                    >
-                      <b-form-input
-                        v-model="input1"
-                        :state="input1state"
-                        size="sm"
-                        placeholder="Señor (es)"
-                      ></b-form-input>
-                    </b-form-group>
-
-                    <b-form-group
-                      :state="input1state"
-                      class="mb-1"
-                      invalid-feedback="This field is required"
-                    >
-                      <b-form-input
-                        v-model="input1"
-                        :state="input1state"
-                        size="sm"
-                        placeholder="NIT"
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      :state="input1state"
-                      class="mb-1"
-                      invalid-feedback="This field is required"
-                    >
-                      <b-form-input
-                        v-model="input1"
-                        :state="input1state"
-                        size="sm"
-                        placeholder="Persona / Contacto"
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      :state="input1state"
-                      class="mb-1"
-                      invalid-feedback="This field is required"
-                    >
-                      <b-form-input
-                        v-model="input1"
-                        :state="input1state"
-                        size="sm"
-                        placeholder="E-Mail"
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      :state="input1state"
-                      class="mb-1"
-                      invalid-feedback="This field is required"
-                    >
-                      <b-form-input
-                        v-model="input1"
-                        :state="input1state"
-                        size="sm"
-                        placeholder="Teléfono"
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-button @click="onOk" size="sm" variant="secondary" squared>
-                      <i class="fa fa-minus-circle"></i>
-                    </b-button>
-                  </div>
-                </b-popover>
               </b-form-group>
             </div>
           </div>
@@ -139,7 +61,7 @@
               <table-customer :data="quotation.customer_id"></table-customer>
             </div>
           </div>
-          <!-- <b-button squared type="submit">Generar Cotización</b-button> -->
+          <b-button @click="getQuotation" size="lg" class="mb-3 float-right" squared>Generar Cotización</b-button>
         </b-form>
       </fieldset>
     </div>
@@ -166,13 +88,13 @@ export default {
         customer_id: null
       },
       options: [],
-      input1: '',
-      input1state: null,
-      input2: '',
-      input2state: null,
-      input1Return: '',
-      input2Return: '',
-      popoverShow: false,
+      selectedFilterCus: 'name',
+      filterCustomer: [
+        { text: 'Nombre', value: 'name' },
+        { text: 'Persona / Contacto', value: 'contact' },
+        { text: 'NIT', value: 'nit' }
+      ],
+      visibleModal: false,
     }
   },
 
@@ -228,16 +150,14 @@ export default {
 </script>
 
 <style scoped>
+.btn-add {
+  height: 2.5em;
+}
+
 .br-content {
   background-color: #969695;
   font-size: 1.1em;
   font-weight: bold;
-}
-
-img {
-  height: auto;
-  max-width: 2.5rem;
-  margin-right: 1rem;
 }
 
 .d-center {
@@ -262,7 +182,7 @@ img {
 .v-select .dropdown li a {
   padding: 10px 20px;
   width: 100%;
-  font-size: 1.25em;
+  font-size: 10em;
   color: #3c3c3c;
 }
 
@@ -284,5 +204,21 @@ legend {
   font-weight: bold;
   padding: 3px 5px 3px 7px;
   width: auto;
+}
+
+.fieldset {
+	border: 2px groove threedface;
+	margin: 2px;
+	margin-top: 10px;
+	position: relative;
+	padding: 15px 12px 10px;
+}
+.fieldset .legend {
+  position: absolute;
+  top: -11px;
+  left: 11px;
+  background: white;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 </style>
